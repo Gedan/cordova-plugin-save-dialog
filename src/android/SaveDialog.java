@@ -80,7 +80,8 @@ public class SaveDialog extends CordovaPlugin {
 
     private void saveFile(Uri uri, byte[] rawData) {
         try {
-            ParcelFileDescriptor pfd = cordova.getActivity().getContentResolver().openFileDescriptor(uri, "w");
+            // See https://issuetracker.google.com/issues/180526528?pli=1 for justification of the mode change
+            ParcelFileDescriptor pfd = cordova.getActivity().getContentResolver().openFileDescriptor(uri, "rwt");
             FileOutputStream fileOutputStream = new FileOutputStream(pfd.getFileDescriptor());
             try {
                 fileOutputStream.write(rawData);
